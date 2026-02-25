@@ -641,7 +641,7 @@
             el.closest('.with-suffix')?.querySelector('.suffix')?.textContent || '';
         
           const box = makeBox(el.value, { inline:true, minH:72, minW:120, pad:16 });
-          box.style.fontSize = '1.2em';
+          box.style.fontSize = '1.0em';
           box.style.fontWeight = '700';
           box.style.whiteSpace = 'nowrap';
           box.style.flex = '0 0 auto';
@@ -649,7 +649,7 @@
         
           const suf = document.createElement('span');
           suf.textContent = suffixText;
-          suf.style.fontSize = '1.05em';
+          suf.style.fontSize = '0.8em';
           suf.style.color = '#9ca3af';
           suf.style.fontWeight = '600';
           suf.style.whiteSpace = 'nowrap';
@@ -884,6 +884,7 @@
 </body>
 
 </html>
+
 
 
 
