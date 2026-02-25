@@ -387,21 +387,37 @@ function normalizeForPrint(root){
     const isEtcOut = el.getAttribute('placeholder')?.includes('直接入力可') && el.style.width === '220px'; // 出勤者「その他」
 
     if(inSuffix){
-      const suffix = el.closest('.with-suffix')?.querySelector('.suffix')?.textContent || '';
-      const text = el.value ? `${el.value} ${suffix}` : suffix;
+      const wrap = document.createElement('div');
+      wrap.style.display = 'inline-flex';
+      wrap.style.alignItems = 'center';
+      wrap.style.gap = '12px';
+      wrap.style.whiteSpace = 'nowrap';
 
-      const box = makeBox(text, {
+      const suffixText =
+        el.closest('.with-suffix')?.querySelector('.suffix')?.textContent || '';
+
+      // 入力値の box
+      const box = makeBox(el.value, {
         inline: true,
-        minH: 72,        // ← 高さを大きく
-        minW: 200,       // ← 横も余裕
-        pad: 16          // ← 文字周りの余白
+        minH: 72,
+        minW: 180,
+        pad: 16
       });
 
-      // フォントを明示的に拡大
-      box.style.fontSize = '1.2em';
+      box.style.fontSize = '0.8em';
       box.style.fontWeight = '700';
 
-      el.closest('.with-suffix').replaceWith(box);
+      // suffix（枠の外）
+      const suf = document.createElement('span');
+      suf.textContent = suffixText;
+      suf.style.fontSize = '1.1em';        // ← 少し大きく
+      suf.style.color = '#9ca3af';          // ← 以前と同系のグレー
+      suf.style.fontWeight = '600';
+
+      wrap.appendChild(box);
+      wrap.appendChild(suf);
+
+      el.closest('.with-suffix').replaceWith(wrap);
     } else if(isTel){
       const box = makeBox(el.value, {inline:false, minH:48});
       box.style.flex = '1 1 0';
