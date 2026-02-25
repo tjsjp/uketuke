@@ -472,8 +472,6 @@
   </nav>
 
   <script>
-    // 号棟号室を一旦ためる
-    const gotouGroups = [];
     // PCと同じ見た目でA4フルサイズPDF化（枠線＆高さを保持）
     async function exportPdf() {
       const src = document.getElementById('sheet');
@@ -587,6 +585,8 @@
     }
 
     function normalizeForPrint(root) {
+      // 号棟号室を一旦ためる
+      const gotouGroups = [];
       // 小さなユーティリティ（枠付きボックスの生成）
       const makeBox = (text, { block = true, minH = 48, minW = null, width = null, pad = 12, border = '#888', flexGrow = null, inline = false } = {}) => {
         const div = document.createElement('div');
@@ -891,5 +891,6 @@
 </body>
 
 </html>
+
 
 
