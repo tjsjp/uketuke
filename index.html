@@ -387,7 +387,21 @@ function normalizeForPrint(root){
     const isEtcOut = el.getAttribute('placeholder')?.includes('直接入力可') && el.style.width === '220px'; // 出勤者「その他」
 
     if(inSuffix){
-      el.replaceWith(makeBox(el.value, {inline:true, minH:48, minW:140}));
+      const suffix = el.closest('.with-suffix')?.querySelector('.suffix')?.textContent || '';
+      const text = el.value ? `${el.value} ${suffix}` : suffix;
+
+      const box = makeBox(text, {
+        inline: true,
+        minH: 72,        // ← 高さを大きく
+        minW: 200,       // ← 横も余裕
+        pad: 16          // ← 文字周りの余白
+      });
+
+      // フォントを明示的に拡大
+      box.style.fontSize = '1.2em';
+      box.style.fontWeight = '700';
+
+      el.closest('.with-suffix').replaceWith(box);
     } else if(isTel){
       const box = makeBox(el.value, {inline:false, minH:48});
       box.style.flex = '1 1 0';
