@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
@@ -7,110 +8,337 @@
   <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
   <style>
-    :root{
-      --ink:#1f2937;
-      --grid:#d1d5db;
-      --bg:#ffffff;
-      --pad:12px;
+    :root {
+      --ink: #1f2937;
+      --grid: #d1d5db;
+      --bg: #ffffff;
+      --pad: 12px;
       --font: system-ui, -apple-system, "Noto Sans JP", "Hiragino Kaku Gothic ProN", Meiryo, sans-serif;
       --toolbar-h: 64px;
     }
-    html{ -webkit-text-size-adjust: 100%; }
-    body { margin:0; font-family: var(--font); background:#f6f7f9; font-size:19px; line-height:1.65; }
 
-    .toolbar { position: fixed; bottom:0; left:0; right:0; display:flex; gap:8px; padding:10px calc(10px + env(safe-area-inset-right)) calc(10px + env(safe-area-inset-bottom)) calc(10px + env(safe-area-inset-left)); background:#fff; border-top:1px solid #ddd; height: var(--toolbar-h); box-sizing: border-box; }
-    .btn { flex:1; padding:12px; font-size:17px; font-weight:700; border-radius:10px; border:1px solid #ccc; background:#fff; }
-    .btn.primary { background:#0ea5e9; color:#fff; border-color:#0ea5e9; }
+    html {
+      -webkit-text-size-adjust: 100%;
+    }
 
-    main { display:flex; justify-content:center; padding:12px; padding-bottom: calc(var(--toolbar-h) + 24px + env(safe-area-inset-bottom)); }
+    body {
+      margin: 0;
+      font-family: var(--font);
+      background: #f6f7f9;
+      font-size: 19px;
+      line-height: 1.65;
+    }
 
-    .sheet { background:var(--bg); width: min(100%, 100vw - 16px); max-width: 820px; padding: var(--pad); border:1px solid #e5e7eb; box-shadow:0 2px 8px rgba(0,0,0,.05); margin: 0 auto; }
+    .toolbar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      display: flex;
+      gap: 8px;
+      padding: 10px calc(10px + env(safe-area-inset-right)) calc(10px + env(safe-area-inset-bottom)) calc(10px + env(safe-area-inset-left));
+      background: #fff;
+      border-top: 1px solid #ddd;
+      height: var(--toolbar-h);
+      box-sizing: border-box;
+    }
 
-    .title { text-align:center; font-weight:900; letter-spacing:0.06em; margin: 2px 0 10px; font-size: clamp(26px, 6.2vw, 36px); }
-    .subtitle { text-align:center; font-size:16px; opacity:.7; margin-bottom:8px; }
+    .btn {
+      flex: 1;
+      padding: 12px;
+      font-size: 17px;
+      font-weight: 700;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+      background: #fff;
+    }
 
-    .grid-table { display:grid; grid-template-columns: minmax(110px, 30%) 1fr; border:1px solid var(--ink); }
-    .th, .td { border-right:1px solid var(--ink); border-bottom:1px solid var(--ink); min-height:58px; padding:12px; box-sizing:border-box; }
-    .th { background:#f3f4f6; font-weight:800; display:flex; align-items:center; justify-content:center; text-align:center; }
-    .td { display:block; white-space: normal; word-break: break-word; overflow-wrap: anywhere; }
+    .btn.primary {
+      background: #0ea5e9;
+      color: #fff;
+      border-color: #0ea5e9;
+    }
 
-    input, textarea, select { width:100%; font-size:19px; padding:12px; border:1px solid var(--grid); border-radius:4px; background:#fff; box-sizing:border-box; line-height:1.65; }
-    textarea { resize: vertical; box-sizing:border-box; }
+    main {
+      display: flex;
+      justify-content: center;
+      padding: 12px;
+      padding-bottom: calc(var(--toolbar-h) + 24px + env(safe-area-inset-bottom));
+    }
+
+    .sheet {
+      background: var(--bg);
+      width: min(100%, 100vw - 16px);
+      max-width: 820px;
+      padding: var(--pad);
+      border: 1px solid #e5e7eb;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, .05);
+      margin: 0 auto;
+    }
+
+    .title {
+      text-align: center;
+      font-weight: 900;
+      letter-spacing: 0.06em;
+      margin: 2px 0 10px;
+      font-size: clamp(26px, 6.2vw, 36px);
+    }
+
+    .subtitle {
+      text-align: center;
+      font-size: 16px;
+      opacity: .7;
+      margin-bottom: 8px;
+    }
+
+    .grid-table {
+      display: grid;
+      grid-template-columns: minmax(110px, 30%) 1fr;
+      border: 1px solid var(--ink);
+    }
+
+    .th,
+    .td {
+      border-right: 1px solid var(--ink);
+      border-bottom: 1px solid var(--ink);
+      min-height: 58px;
+      padding: 12px;
+      box-sizing: border-box;
+    }
+
+    .th {
+      background: #f3f4f6;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+
+    .td {
+      display: block;
+      white-space: normal;
+      word-break: break-word;
+      overflow-wrap: anywhere;
+    }
+
+    input,
+    textarea,
+    select {
+      width: 100%;
+      font-size: 19px;
+      padding: 12px;
+      border: 1px solid var(--grid);
+      border-radius: 4px;
+      background: #fff;
+      box-sizing: border-box;
+      line-height: 1.65;
+    }
+
+    textarea {
+      resize: vertical;
+      box-sizing: border-box;
+    }
+
     /* 10行ぶんの高さを確保（画面表示時） */
-    textarea.short { min-height: 260px; }
-    textarea.tall  { min-height: 300px; }
+    textarea.short {
+      min-height: 260px;
+    }
 
-    .inline { display:flex; gap:8px; flex-wrap:wrap; }
-    .inline input, .inline select { flex:1 1 150px; min-width:0; }
+    textarea.tall {
+      min-height: 300px;
+    }
+
+    .inline {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .inline input,
+    .inline select {
+      flex: 1 1 150px;
+      min-width: 0;
+    }
 
     /* 号棟号室：全体を半幅、左寄せ */
-    .inline.half { max-width:50%; justify-content:flex-start; }
-    .with-suffix { position:relative; flex:1 1 120px; min-width:0; }
-    .with-suffix input { padding-right:44px; }
-    .suffix { position:absolute; right:10px; top:50%; transform:translateY(-50%); opacity:.7; font-size:16px; pointer-events:none; }
-
-    .checks { display:flex; flex-wrap:wrap; gap:8px 16px; align-items:center; }
-    .checks label { display:inline-flex; align-items:center; gap:6px; white-space:normal; writing-mode: horizontal-tb; }
-    .checks input[type="checkbox"]{ width:18px; height:18px; }
-
-    @media (max-width: 380px){
-      .grid-table{ grid-template-columns: 100px 1fr; }
-      .th, .td{ min-height: 60px; padding: 12px 10px; }
-      .inline{ gap:6px; }
-      .inline.half{ max-width:100%; } /* 端末が狭い時は自動で全幅に戻す */
+    .inline.half {
+      max-width: 50%;
+      justify-content: flex-start;
     }
 
-    @media (max-width: 340px){
-      .th{ padding: 12px 6px; word-break: keep-all; line-height:1.35; }
+    .with-suffix {
+      position: relative;
+      flex: 1 1 120px;
+      min-width: 0;
     }
 
-@media print{
-  .toolbar { display:none; }
-  body{
-    background:#fff;
-    font-size:40px;           /* 本文を大きく */
-    line-height:1.9;          /* 縦ゆったり */
-    -webkit-print-color-adjust: exact; print-color-adjust: exact;
-  }
+    .with-suffix input {
+      padding-right: 44px;
+    }
 
-  /* 左列見出しが大きくても収まるよう幅を拡張 */
-  .grid-table{ grid-template-columns: minmax(240px, 36%) 1fr; }
+    .suffix {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      opacity: .7;
+      font-size: 16px;
+      pointer-events: none;
+    }
 
-  /* 左ラベル（受付区分/受付日時/団地/居住者…）を約3倍 */
-  .grid-table .th{ font-size:3em !important; font-weight:900 !important; }
+    .checks {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px 16px;
+      align-items: center;
+    }
 
-  /* タイトル＆サブタイトルは今の約3倍 */
-  .title{ font-size:3em !important; }
-  .subtitle{ font-size:3em !important; }
+    .checks label {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      white-space: normal;
+      writing-mode: horizontal-tb;
+    }
 
-  .sheet{ border:none; box-shadow:none; padding: 14mm; width:auto; max-width:none; }
-  input::placeholder, textarea::placeholder { color: transparent !important; }
+    .checks input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+    }
 
-  /* テキストエリア：枠は“少し薄く”、はみ出し防止、10行相当の高さ */
-  textarea.short, textarea.tall{
-    border:1px solid #888 !important;   /* ← 少し薄く */
-    width:100% !important;
-    box-sizing:border-box !important;
-    overflow-wrap:anywhere !important;
-  }
-  textarea.short { min-height:340px !important; }
-  textarea.tall  { min-height:400px !important; }
+    @media (max-width: 380px) {
+      .grid-table {
+        grid-template-columns: 100px 1fr;
+      }
 
-  /* 「※作業対応」は1列表示（ラベルとセレクトを横並び） */
-  .td .inline label{ display:inline-flex; align-items:center; gap:12px; }
-  .td .inline label select{ display:inline-block; min-width:260px; }
+      .th,
+      .td {
+        min-height: 60px;
+        padding: 12px 10px;
+      }
 
-  /* 居住者の電話3つ：上の名前欄に近い感覚で3等分 */
-  .td .inline{ display:flex; gap:14px; }
-  .td .inline > input.tel{ flex:1 1 0; min-width:0; }
+      .inline {
+        gap: 6px;
+      }
 
-  /* ※対応内容の太字は削除（印刷時のみ） */
-  .td label{ font-weight:400 !important; }
-  
-  @page{ size: A4 portrait; margin: 0; }
-}
+      .inline.half {
+        max-width: 100%;
+      }
+
+      /* 端末が狭い時は自動で全幅に戻す */
+    }
+
+    @media (max-width: 340px) {
+      .th {
+        padding: 12px 6px;
+        word-break: keep-all;
+        line-height: 1.35;
+      }
+    }
+
+    @media print {
+      .toolbar {
+        display: none;
+      }
+
+      body {
+        background: #fff;
+        font-size: 40px;
+        /* 本文を大きく */
+        line-height: 1.9;
+        /* 縦ゆったり */
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+
+      /* 左列見出しが大きくても収まるよう幅を拡張 */
+      .grid-table {
+        grid-template-columns: minmax(240px, 36%) 1fr;
+      }
+
+      /* 左ラベル（受付区分/受付日時/団地/居住者…）を約3倍 */
+      .grid-table .th {
+        font-size: 3em !important;
+        font-weight: 900 !important;
+      }
+
+      /* タイトル＆サブタイトルは今の約3倍 */
+      .title {
+        font-size: 3em !important;
+      }
+
+      .subtitle {
+        font-size: 3em !important;
+      }
+
+      .sheet {
+        border: none;
+        box-shadow: none;
+        padding: 14mm;
+        width: auto;
+        max-width: none;
+      }
+
+      input::placeholder,
+      textarea::placeholder {
+        color: transparent !important;
+      }
+
+      /* テキストエリア：枠は“少し薄く”、はみ出し防止、10行相当の高さ */
+      textarea.short,
+      textarea.tall {
+        border: 1px solid #888 !important;
+        /* ← 少し薄く */
+        width: 100% !important;
+        box-sizing: border-box !important;
+        overflow-wrap: anywhere !important;
+      }
+
+      textarea.short {
+        min-height: 340px !important;
+      }
+
+      textarea.tall {
+        min-height: 400px !important;
+      }
+
+      /* 「※作業対応」は1列表示（ラベルとセレクトを横並び） */
+      .td .inline label {
+        display: inline-flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .td .inline label select {
+        display: inline-block;
+        min-width: 260px;
+      }
+
+      /* 居住者の電話3つ：上の名前欄に近い感覚で3等分 */
+      .td .inline {
+        display: flex;
+        gap: 14px;
+      }
+
+      .td .inline>input.tel {
+        flex: 1 1 0;
+        min-width: 0;
+      }
+
+      /* ※対応内容の太字は削除（印刷時のみ） */
+      .td label {
+        font-weight: 400 !important;
+      }
+
+      @page {
+        size: A4 portrait;
+        margin: 0;
+      }
+    }
   </style>
 </head>
+
 <body>
   <main>
     <section class="sheet" id="sheet">
@@ -121,7 +349,13 @@
         <div class="th">受付区分</div>
         <div class="td">
           <div class="inline">
-            <select><option>JS時間外</option><option>電話本人</option><option>住まいセンター</option><option>管理事務所</option><option>その他</option></select>
+            <select>
+              <option>JS時間外</option>
+              <option>電話本人</option>
+              <option>住まいセンター</option>
+              <option>管理事務所</option>
+              <option>その他</option>
+            </select>
             <input type="text" placeholder="名前（直接入力可）">
           </div>
         </div>
@@ -138,8 +372,23 @@
         <div class="th">団地名</div>
         <div class="td">
           <div class="inline">
-            <select><option>ひばりが丘PH</option><option>GPひばりが丘南</option><option>新柳沢団地</option><option>PS田無向台</option><option>GH東久留米</option><option>滝山団地</option><option>滝山東団地</option>
-              <option>フレール西経堂</option><option>経堂赤堤通り団地</option><option>スクエアー世田谷桜丘</option><option>世田谷通りシティハイツ若林</option><option>CC二子玉川</option><option>CC上馬</option><option>上馬二丁目</option><option>その他</option></select>
+            <select>
+              <option>ひばりが丘PH</option>
+              <option>GPひばりが丘南</option>
+              <option>新柳沢団地</option>
+              <option>PS田無向台</option>
+              <option>GH東久留米</option>
+              <option>滝山団地</option>
+              <option>滝山東団地</option>
+              <option>フレール西経堂</option>
+              <option>経堂赤堤通り団地</option>
+              <option>スクエアー世田谷桜丘</option>
+              <option>世田谷通りシティハイツ若林</option>
+              <option>CC二子玉川</option>
+              <option>CC上馬</option>
+              <option>上馬二丁目</option>
+              <option>その他</option>
+            </select>
             <input type="text" placeholder="直接入力可（任意）">
           </div>
         </div>
@@ -223,8 +472,10 @@
   </nav>
 
   <script>
+    // 号棟号室を一旦ためる
+    const gotouGroups = [];
     // PCと同じ見た目でA4フルサイズPDF化（枠線＆高さを保持）
-    async function exportPdf(){
+    async function exportPdf() {
       const src = document.getElementById('sheet');
 
       // 画面外にA4相当のクローンを作って固定幅で描画
@@ -246,7 +497,7 @@
 
       // ★ここを追加：フォームの「現在値」を src → clone にコピー
       syncFormState(src, clone);
-      
+
       // 入力UIを「枠付きの表示ボックス」に置換して枠/高さ/折返しを安定化
       normalizeForPrint(clone);
 
@@ -256,7 +507,7 @@
       const widthPx = clone.offsetWidth;
       const heightPx = clone.scrollHeight;
       const canvas = await html2canvas(clone, {
-        backgroundColor:'#ffffff',
+        backgroundColor: '#ffffff',
         scale: 2,
         width: widthPx,
         height: heightPx,
@@ -277,343 +528,366 @@
       const offsetY = (pageH - finalH) / 2;
       pdf.addImage(img, 'JPEG', offsetX, offsetY, finalW, finalH, undefined, 'FAST');
       // ---- ファイル名を動的作成 ----
-const complexName = (()=>{
-  // クローンじゃなく画面上の値から採る（未入力でもOKなようにフォールバック）
-  const danchiSel = document.querySelector('div.th + .td select'); // 最初のselectは受付区分なので、団地のselectを厳密に取る
-  // より確実に：団地名の th をキーに探す
-  const ths = [...document.querySelectorAll('.th')];
-  const danchiTh = ths.find(t=>t.textContent.includes('団地名'));
-  const danchiTd = danchiTh ? danchiTh.nextElementSibling : null;
-  const danchiSelect = danchiTd ? danchiTd.querySelector('select') : null;
-  const danchi = danchiSelect ? (danchiSelect.options[danchiSelect.selectedIndex]?.text || '') : '';
+      const complexName = (() => {
+        // クローンじゃなく画面上の値から採る（未入力でもOKなようにフォールバック）
+        const danchiSel = document.querySelector('div.th + .td select'); // 最初のselectは受付区分なので、団地のselectを厳密に取る
+        // より確実に：団地名の th をキーに探す
+        const ths = [...document.querySelectorAll('.th')];
+        const danchiTh = ths.find(t => t.textContent.includes('団地名'));
+        const danchiTd = danchiTh ? danchiTh.nextElementSibling : null;
+        const danchiSelect = danchiTd ? danchiTd.querySelector('select') : null;
+        const danchi = danchiSelect ? (danchiSelect.options[danchiSelect.selectedIndex]?.text || '') : '';
 
-  const gtTd = (ths.find(t=>t.textContent.includes('号棟号室'))||{}).nextElementSibling;
-  const gt = gtTd ? (gtTd.querySelector('.with-suffix input[placeholder="8"]')?.value || gtTd.querySelector('.with-suffix input')?.value || '') : '';
-  const gs = gtTd ? (gtTd.querySelector('.with-suffix + .with-suffix input[placeholder="208"]')?.value || gtTd.querySelector('.with-suffix + .with-suffix input')?.value || '') : '';
+        const gtTd = (ths.find(t => t.textContent.includes('号棟号室')) || {}).nextElementSibling;
+        const gt = gtTd ? (gtTd.querySelector('.with-suffix input[placeholder="8"]')?.value || gtTd.querySelector('.with-suffix input')?.value || '') : '';
+        const gs = gtTd ? (gtTd.querySelector('.with-suffix + .with-suffix input[placeholder="208"]')?.value || gtTd.querySelector('.with-suffix + .with-suffix input')?.value || '') : '';
 
-  const parts = [];
-  if(danchi) parts.push(danchi);
-  if(gt) parts.push(`${gt}号棟`);
-  if(gs) parts.push(`${gs}号室`);
-  parts.push('受付表');
-  return parts.join('_') + '.pdf';
-})();
+        const parts = [];
+        if (danchi) parts.push(danchi);
+        if (gt) parts.push(`${gt}号棟`);
+        if (gs) parts.push(`${gs}号室`);
+        parts.push('受付表');
+        return parts.join('_') + '.pdf';
+      })();
 
-pdf.save(complexName);
-      
+      pdf.save(complexName);
+
       document.body.removeChild(printRoot);
     }
 
-function syncFormState(srcRoot, cloneRoot){
-  const srcEls   = srcRoot.querySelectorAll('input, select, textarea');
-  const cloneEls = cloneRoot.querySelectorAll('input, select, textarea');
+    function syncFormState(srcRoot, cloneRoot) {
+      const srcEls = srcRoot.querySelectorAll('input, select, textarea');
+      const cloneEls = cloneRoot.querySelectorAll('input, select, textarea');
 
-  srcEls.forEach((srcEl, i) => {
-    const clEl = cloneEls[i];
-    if(!clEl) return;
+      srcEls.forEach((srcEl, i) => {
+        const clEl = cloneEls[i];
+        if (!clEl) return;
 
-    const tag = srcEl.tagName.toLowerCase();
+        const tag = srcEl.tagName.toLowerCase();
 
-    if(tag === 'input'){
-      const type = (srcEl.type || 'text').toLowerCase();
-      if(type === 'checkbox' || type === 'radio'){
-        clEl.checked = srcEl.checked;
-      }else{
-        clEl.value = srcEl.value;
-      }
+        if (tag === 'input') {
+          const type = (srcEl.type || 'text').toLowerCase();
+          if (type === 'checkbox' || type === 'radio') {
+            clEl.checked = srcEl.checked;
+          } else {
+            clEl.value = srcEl.value;
+          }
+        }
+
+        if (tag === 'textarea') {
+          clEl.value = srcEl.value;         // ←これが超重要（cloneNodeは反映しない事が多い）
+        }
+
+        if (tag === 'select') {
+          clEl.selectedIndex = srcEl.selectedIndex; // ←これが今回の本命
+          // 念のため option.selected も合わせたいなら下も追加
+          [...clEl.options].forEach((opt, k) => opt.selected = srcEl.options[k]?.selected);
+        }
+      });
     }
 
-    if(tag === 'textarea'){
-      clEl.value = srcEl.value;         // ←これが超重要（cloneNodeは反映しない事が多い）
-    }
+    function normalizeForPrint(root) {
+      // 小さなユーティリティ（枠付きボックスの生成）
+      const makeBox = (text, { block = true, minH = 48, minW = null, width = null, pad = 12, border = '#888', flexGrow = null, inline = false } = {}) => {
+        const div = document.createElement('div');
+        div.textContent = text || '';
+        div.style.whiteSpace = 'pre-wrap';
+        div.style.border = `1px solid ${border}`;         // 既定は #888（薄め）
+        div.style.boxShadow = 'none';                      // 念のため影は消す
+        div.style.borderRadius = '4px';
+        div.style.padding = pad + 'px';
+        div.style.lineHeight = '1.8';
+        div.style.boxSizing = 'border-box';
+        if (width) { div.style.width = width; }
+        if (minH) { div.style.minHeight = (typeof minH === 'number' ? minH + 'px' : minH); }
+        if (minW) { div.style.minWidth = (typeof minW === 'number' ? minW + 'px' : minW); }
+        if (flexGrow !== null) { div.style.flex = `${flexGrow} 1 0`; }
+        if (inline) { div.style.display = 'inline-block'; }
+        else if (block) { div.style.display = 'block'; div.style.width = div.style.width || '100%'; }
+        return div;
+      };
 
-    if(tag === 'select'){
-      clEl.selectedIndex = srcEl.selectedIndex; // ←これが今回の本命
-      // 念のため option.selected も合わせたいなら下も追加
-      [...clEl.options].forEach((opt, k) => opt.selected = srcEl.options[k]?.selected);
-    }
-  });
-}
+      // --- ヘルパー：見出しテキストから「同じ行の td」を取る ---
+      const tdByThText = (kw) => {
+        const th = [...root.querySelectorAll('.th')].find(t => t.textContent.includes(kw));
+        return th ? th.nextElementSibling : null;
+      };
 
-function normalizeForPrint(root){
-  // 小さなユーティリティ（枠付きボックスの生成）
-  const makeBox = (text, {block=true, minH=48, minW=null, width=null, pad=12, border='#888', flexGrow=null, inline=false}={}) => {
-    const div = document.createElement('div');
-    div.textContent = text || '';
-    div.style.whiteSpace = 'pre-wrap';
-    div.style.border = `1px solid ${border}`;         // 既定は #888（薄め）
-    div.style.boxShadow = 'none';                      // 念のため影は消す
-    div.style.borderRadius = '4px';
-    div.style.padding = pad + 'px';
-    div.style.lineHeight = '1.8';
-    div.style.boxSizing = 'border-box';
-    if(width){ div.style.width = width; }
-    if(minH){ div.style.minHeight = (typeof minH==='number'? minH+'px' : minH); }
-    if(minW){ div.style.minWidth  = (typeof minW==='number'? minW+'px' : minW); }
-    if(flexGrow !== null){ div.style.flex = `${flexGrow} 1 0`; }
-    if(inline){ div.style.display = 'inline-block'; }
-    else if(block){ div.style.display = 'block'; div.style.width = div.style.width || '100%'; }
-    return div;
-  };
+      // --- 「印刷時は1行表示」にする対象 td を取得 ---
+      const oneLineTds = {
+        kubun: tdByThText('受付区分'),
+        jikan: tdByThText('受付日時'),
+        danchi: tdByThText('団地名'),
+      };
 
-  // --- ヘルパー：見出しテキストから「同じ行の td」を取る ---
-  const tdByThText = (kw) => {
-    const th = [...root.querySelectorAll('.th')].find(t => t.textContent.includes(kw));
-    return th ? th.nextElementSibling : null;
-  };
-
-  // --- 「印刷時は1行表示」にする対象 td を取得 ---
-  const oneLineTds = {
-    kubun:  tdByThText('受付区分'),
-    jikan:  tdByThText('受付日時'),
-    danchi: tdByThText('団地名'),
-  };
-
-    // 情報ブロック特別処理 → 削除
-    const infoTh = [...root.querySelectorAll('.th')].find(th => th.textContent.includes('情'));
-    const infoTd = infoTh ? infoTh.nextElementSibling : null;
-    // 以前はここで hoshuLabel の直前に <div> を入れて改行していたが削除
+      // 情報ブロック特別処理 → 削除
+      const infoTh = [...root.querySelectorAll('.th')].find(th => th.textContent.includes('情'));
+      const infoTd = infoTh ? infoTh.nextElementSibling : null;
+      // 以前はここで hoshuLabel の直前に <div> を入れて改行していたが削除
 
 
-  // --- まず通常どおり変換（checkbox以外の input / select / textarea） ---
-  root.querySelectorAll('input').forEach(el => {
-    const type = (el.getAttribute('type')||'text').toLowerCase();
-    if(type === 'checkbox') return;
+      // --- まず通常どおり変換（checkbox以外の input / select / textarea） ---
+      root.querySelectorAll('input').forEach(el => {
+        const type = (el.getAttribute('type') || 'text').toLowerCase();
+        if (type === 'checkbox') return;
 
-    const inSuffix = !!el.closest('.with-suffix');   // 号棟/号室
-    const isTel    = el.classList.contains('tel');   // 電話
-    const isNo     = el.parentElement && /No\./.test(el.parentElement.textContent); // No.
-    const inInfo   = !!el.closest('.td') && infoTd && infoTd.contains(el);
-    const isEtcOut = el.getAttribute('placeholder')?.includes('直接入力可') && el.style.width === '220px'; // 出勤者「その他」
+        const inSuffix = !!el.closest('.with-suffix');   // 号棟/号室
+        const isTel = el.classList.contains('tel');   // 電話
+        const isNo = el.parentElement && /No\./.test(el.parentElement.textContent); // No.
+        const inInfo = !!el.closest('.td') && infoTd && infoTd.contains(el);
+        const isEtcOut = el.getAttribute('placeholder')?.includes('直接入力可') && el.style.width === '220px'; // 出勤者「その他」
 
-    if(inSuffix){
-      const wrap = document.createElement('div');
-      wrap.style.display = 'inline-flex';
-      wrap.style.alignItems = 'center';
-      wrap.style.gap = '12px';
-      wrap.style.whiteSpace = 'nowrap';
+        if (inSuffix) {
+          const parent = el.closest('.td');
+          const suffix =
+            el.closest('.with-suffix')?.querySelector('.suffix')?.textContent || '';
 
-      const suffixText =
-        el.closest('.with-suffix')?.querySelector('.suffix')?.textContent || '';
+          const box = makeBox(el.value, {
+            inline: true,
+            minH: 72,
+            minW: 120,
+            pad: 16
+          });
 
-      // 入力値の box
-      const box = makeBox(el.value, {
-        inline: true,
-        minH: 72,
-        minW: 180,
-        pad: 16
+          box.style.fontSize = '1.2em';
+          box.style.fontWeight = '700';
+          box.style.whiteSpace = 'nowrap';
+          box.style.flex = '0 0 auto';
+
+          const suf = document.createElement('span');
+          suf.textContent = suffix;
+          suf.style.fontSize = '0.8em';
+          suf.style.color = '#9ca3af';
+          suf.style.fontWeight = '600';
+          suf.style.whiteSpace = 'nowrap';
+
+          const pair = document.createElement('span');
+          pair.style.display = 'inline-flex';
+          pair.style.alignItems = 'center';
+          pair.style.gap = '6px';
+          pair.style.whiteSpace = 'nowrap';
+
+          pair.appendChild(box);
+          pair.appendChild(suf);
+
+          // 親 td ごとにまとめる
+          gotouGroups.push({ parent, pair });
+
+          el.closest('.with-suffix').replaceWith(pair);
+        } else if (isTel) {
+          const box = makeBox(el.value, { inline: false, minH: 48 });
+          box.style.flex = '1 1 0';
+          el.replaceWith(box);
+        } else if (isNo) {
+          // No. 欄：常に横並び（改行しない）
+          const box = makeBox(el.value, { inline: true, minH: 48, minW: 160 }); // お好みで 140～200 に調整可
+          const parentSpan = el.parentElement;
+          el.replaceWith(box);
+          if (parentSpan) {
+            // block ではなく inline-flex にして折り返さない
+            parentSpan.style.display = 'inline-flex';
+            parentSpan.style.alignItems = 'center';
+            parentSpan.style.gap = '8px';
+            parentSpan.style.width = 'auto';
+            parentSpan.style.marginTop = '0';
+          }
+        } else if (isEtcOut) {
+          // 出勤者「その他」入力欄を横並びのまま広く表示
+          const box = makeBox(el.value, { inline: true, minH: 48, minW: 300 });
+          const parentSpan = el.parentElement;
+          el.replaceWith(box);
+          if (parentSpan) {
+            parentSpan.style.display = 'inline-flex';
+            parentSpan.style.alignItems = 'center';
+            parentSpan.style.gap = '8px';
+            parentSpan.style.width = 'auto';
+          }
+        } else {
+          el.replaceWith(makeBox(el.value, { block: true, minH: 56 }));
+        }
       });
 
-      box.style.fontSize = '0.8em';
-      box.style.fontWeight = '700';
+      root.querySelectorAll('select').forEach(sel => {
+        const inWorkLabel = !!sel.closest('label') && sel.closest('label')?.textContent.includes('※作業対応');
+        if (inWorkLabel) {
+          sel.replaceWith(makeBox(sel.options[sel.selectedIndex]?.text || '', { inline: true, minH: 48, minW: 260 }));
+        } else {
+          sel.replaceWith(makeBox(sel.options[sel.selectedIndex]?.text || '', { block: true, minH: 56 }));
+        }
+      });
 
-      // suffix（枠の外）
-      const suf = document.createElement('span');
-      suf.textContent = suffixText;
-      suf.style.fontSize = '1.1em';        // ← 少し大きく
-      suf.style.color = '#9ca3af';          // ← 以前と同系のグレー
-      suf.style.fontWeight = '600';
+      root.querySelectorAll('textarea').forEach(ta => {
+        const minH = ta.classList.contains('tall') ? 400 : 340;
+        const box = makeBox(ta.value, { block: true, minH, border: '#888' });
+        box.style.width = '100%';
+        ta.replaceWith(box);
+      });
 
-      wrap.appendChild(box);
-      wrap.appendChild(suf);
+      // ※対応内容の見出しは太字解除（既存維持）
+      root.querySelectorAll('label').forEach(lab => {
+        if (lab.textContent.trim().includes('※対応内容')) lab.style.fontWeight = '400';
+      });
 
-      el.closest('.with-suffix').replaceWith(wrap);
-    } else if(isTel){
-      const box = makeBox(el.value, {inline:false, minH:48});
-      box.style.flex = '1 1 0';
-      el.replaceWith(box);
-    } else if(isNo){
-      // No. 欄：常に横並び（改行しない）
-      const box = makeBox(el.value, {inline:true, minH:48, minW:160}); // お好みで 140～200 に調整可
-      const parentSpan = el.parentElement;
-      el.replaceWith(box);
-      if (parentSpan) {
-        // block ではなく inline-flex にして折り返さない
-        parentSpan.style.display = 'inline-flex';
-        parentSpan.style.alignItems = 'center';
-        parentSpan.style.gap = '8px';
-        parentSpan.style.width = 'auto';
-        parentSpan.style.marginTop = '0';
+      // checkbox → □/☑︎ に置換（既存維持）
+      root.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+        const label = cb.closest('label');
+        const sym = cb.checked ? '☑︎' : '☐';
+        if (label) {
+          const text = label.textContent.replace(/[\s\u2610\u2611\u2705]*/g, '').trim();
+          const span = document.createElement('span');
+          span.textContent = `${sym} ${text}`;
+          label.replaceWith(span);
+        } else {
+          const span = document.createElement('span');
+          span.textContent = sym;
+          cb.replaceWith(span);
+        }
+      });
+
+      // --- ここから：対象3行を“1行横並び”に最終整形 ---
+      const enforceOneLine = (td, opts = {}) => {
+        if (!td) return;
+        // 親 .inline を横一列＆折返しなしに
+        const inlineWrap = td.querySelector('.inline') || td;
+        inlineWrap.style.display = 'flex';
+        inlineWrap.style.flexWrap = 'nowrap';
+        inlineWrap.style.alignItems = 'center';
+        inlineWrap.style.gap = '12px';
+
+        // 子ボックス（さきほど makeBox で置換された要素）を全部インライン化
+        [...inlineWrap.children].forEach(ch => {
+          if (!(ch instanceof HTMLElement)) return;
+          // 「No.～」などの span も横並びに
+          ch.style.display = 'inline-block';
+          ch.style.width = 'auto';
+          ch.style.minWidth = '0';
+          ch.style.flex = '0 0 auto';
+          // 号棟/号室用の小さめ余白を少し詰める
+          if (opts.compact) { ch.style.padding = '10px'; }
+          // 受付者など長め入力は少し広めに
+          if (opts.wide && ch.tagName === 'DIV' && ch.style.minWidth === '') {
+            ch.style.minWidth = '240px';
+          }
+        });
+      };
+      // --- 「※出勤者」内の「その他 + 入力」を1塊にして改行させない ---
+      (() => {
+        // 「経過及び処理」の最初の .checks（= ※出勤者の行）を取得
+        const tallTh = [...root.querySelectorAll('.th')].find(t => t.textContent.includes('経過及び処理'));
+        const tallTd = tallTh ? tallTh.nextElementSibling : null;
+        const firstChecks = tallTd ? tallTd.querySelector('.checks') : null;
+        if (!firstChecks) return;
+
+        // チェックボックスは既に span（☐その他）に置換済みなので、その span を特定
+        const spans = [...firstChecks.children];
+        const sonotaSpan = spans.find(el => el.tagName === 'SPAN' && el.textContent.includes('その他'));
+        if (!sonotaSpan) return;
+
+        // 「その他」の直後は <span>（中に 440px のボックスが入っている）
+        const inputSpan = sonotaSpan.nextElementSibling;
+        if (!inputSpan || inputSpan.tagName !== 'SPAN') return;
+
+        // ラベル＋入力を1塊にして nowrap
+        const wrap = document.createElement('span');
+        wrap.style.display = 'inline-flex';
+        wrap.style.alignItems = 'center';
+        wrap.style.gap = '8px';
+        wrap.style.whiteSpace = 'nowrap';
+
+        // その場で置き換え（移動）
+        firstChecks.insertBefore(wrap, sonotaSpan);
+        wrap.appendChild(sonotaSpan);
+        wrap.appendChild(inputSpan);
+
+        // 念のため、内側 span も横並び指定を強める
+        inputSpan.style.display = 'inline-flex';
+        inputSpan.style.alignItems = 'center';
+        inputSpan.style.gap = '8px';
+        inputSpan.style.width = 'auto';
+      })();
+      // --- 「※JS時間外報告」の前に改行を入れる ---
+      (() => {
+        const tallTh = [...root.querySelectorAll('.th')].find(t => t.textContent.includes('経過及び処理'));
+        const tallTd = tallTh ? tallTh.nextElementSibling : null;
+        const lastChecks = tallTd ? tallTd.querySelector('.checks:last-of-type') : null;
+        if (!lastChecks) return;
+
+        // 「※JS時間外報告」の span を探す
+        const spans = [...lastChecks.children];
+        const jsSpan = spans.find(el => el.tagName === 'SPAN' && el.textContent.includes('※JS時間外報告'));
+        if (!jsSpan) return;
+
+        // 改行要素を作って「※JS時間外報告」の直前に挿入
+        const br = document.createElement('div');
+        br.style.width = '100%';
+        br.style.height = '0';
+        br.style.display = 'block';
+        br.style.marginTop = '8px'; // お好みで余白
+        lastChecks.insertBefore(br, jsSpan);
+      })();
+
+      // 受付区分（セレクト＋名前）：1行、min-width:300px
+      if (oneLineTds.kubun) {
+        enforceOneLine(oneLineTds.kubun);
+        [...oneLineTds.kubun.querySelectorAll('div')].forEach(ch => {
+          ch.style.minWidth = '300px';
+        });
       }
-    } else if(isEtcOut){
-      // 出勤者「その他」入力欄を横並びのまま広く表示
-      const box = makeBox(el.value, {inline:true, minH:48, minW:300});
-      const parentSpan = el.parentElement;
-      el.replaceWith(box);
-      if (parentSpan) {
-        parentSpan.style.display = 'inline-flex';
-        parentSpan.style.alignItems = 'center';
-        parentSpan.style.gap = '8px';
-        parentSpan.style.width = 'auto';
+
+      // 受付日時（日付＋時刻＋受付者）：1行、min-width:200px
+      if (oneLineTds.jikan) {
+        enforceOneLine(oneLineTds.jikan);
+        [...oneLineTds.jikan.querySelectorAll('div')].forEach(ch => {
+          ch.style.minWidth = '200px';
+        });
       }
-    } else {
-      el.replaceWith(makeBox(el.value, {block:true, minH:56}));
-    }
-  });
 
-  root.querySelectorAll('select').forEach(sel => {
-    const inWorkLabel = !!sel.closest('label') && sel.closest('label')?.textContent.includes('※作業対応');
-    if(inWorkLabel){
-      sel.replaceWith(makeBox(sel.options[sel.selectedIndex]?.text || '', {inline:true, minH:48, minW:260}));
-    } else {
-      sel.replaceWith(makeBox(sel.options[sel.selectedIndex]?.text || '', {block:true, minH:56}));
-    }
-  });
-
-  root.querySelectorAll('textarea').forEach(ta => {
-    const minH = ta.classList.contains('tall') ? 400 : 340;
-    const box = makeBox(ta.value, {block:true, minH, border:'#888'});
-    box.style.width = '100%';
-    ta.replaceWith(box);
-  });
-
-  // ※対応内容の見出しは太字解除（既存維持）
-  root.querySelectorAll('label').forEach(lab=>{
-    if(lab.textContent.trim().includes('※対応内容')) lab.style.fontWeight='400';
-  });
-
-  // checkbox → □/☑︎ に置換（既存維持）
-  root.querySelectorAll('input[type="checkbox"]').forEach(cb => {
-    const label = cb.closest('label');
-    const sym = cb.checked ? '☑︎' : '☐';
-    if(label){
-      const text = label.textContent.replace(/[\s\u2610\u2611\u2705]*/g, '').trim();
-      const span = document.createElement('span');
-      span.textContent = `${sym} ${text}`;
-      label.replaceWith(span);
-    } else {
-      const span = document.createElement('span');
-      span.textContent = sym;
-      cb.replaceWith(span);
-    }
-  });
-
-  // --- ここから：対象3行を“1行横並び”に最終整形 ---
-  const enforceOneLine = (td, opts={}) => {
-    if(!td) return;
-    // 親 .inline を横一列＆折返しなしに
-    const inlineWrap = td.querySelector('.inline') || td;
-    inlineWrap.style.display = 'flex';
-    inlineWrap.style.flexWrap = 'nowrap';
-    inlineWrap.style.alignItems = 'center';
-    inlineWrap.style.gap = '12px';
-
-    // 子ボックス（さきほど makeBox で置換された要素）を全部インライン化
-    [...inlineWrap.children].forEach(ch => {
-      if(!(ch instanceof HTMLElement)) return;
-      // 「No.～」などの span も横並びに
-      ch.style.display = 'inline-block';
-      ch.style.width = 'auto';
-      ch.style.minWidth = '0';
-      ch.style.flex = '0 0 auto';
-      // 号棟/号室用の小さめ余白を少し詰める
-      if(opts.compact){ ch.style.padding = '10px'; }
-      // 受付者など長め入力は少し広めに
-      if(opts.wide && ch.tagName === 'DIV' && ch.style.minWidth === ''){
-        ch.style.minWidth = '240px';
+      // 団地名（セレクト＋任意入力）：1行、min-width:300px
+      if (oneLineTds.danchi) {
+        enforceOneLine(oneLineTds.danchi);
+        [...oneLineTds.danchi.querySelectorAll('div')].forEach(ch => {
+          ch.style.minWidth = '300px';
+        });
       }
-    });
-  };
-// --- 「※出勤者」内の「その他 + 入力」を1塊にして改行させない ---
-(() => {
-  // 「経過及び処理」の最初の .checks（= ※出勤者の行）を取得
-  const tallTh = [...root.querySelectorAll('.th')].find(t => t.textContent.includes('経過及び処理'));
-  const tallTd = tallTh ? tallTh.nextElementSibling : null;
-  const firstChecks = tallTd ? tallTd.querySelector('.checks') : null;
-  if (!firstChecks) return;
+      // --- 号棟号室を1行にまとめる ---
+      (() => {
+        if (gotouGroups.length === 0) return;
 
-  // チェックボックスは既に span（☐その他）に置換済みなので、その span を特定
-  const spans = [...firstChecks.children];
-  const sonotaSpan = spans.find(el => el.tagName === 'SPAN' && el.textContent.includes('その他'));
-  if (!sonotaSpan) return;
+        const td = gotouGroups[0].parent;
 
-  // 「その他」の直後は <span>（中に 440px のボックスが入っている）
-  const inputSpan = sonotaSpan.nextElementSibling;
-  if (!inputSpan || inputSpan.tagName !== 'SPAN') return;
+        const wrap = document.createElement('div');
+        wrap.style.display = 'inline-flex';
+        wrap.style.alignItems = 'center';
+        wrap.style.gap = '20px';        // 号棟 ↔ 号室の間隔
+        wrap.style.whiteSpace = 'nowrap';
 
-  // ラベル＋入力を1塊にして nowrap
-  const wrap = document.createElement('span');
-  wrap.style.display = 'inline-flex';
-  wrap.style.alignItems = 'center';
-  wrap.style.gap = '8px';
-  wrap.style.whiteSpace = 'nowrap';
+        gotouGroups.forEach(g => wrap.appendChild(g.pair));
 
-  // その場で置き換え（移動）
-  firstChecks.insertBefore(wrap, sonotaSpan);
-  wrap.appendChild(sonotaSpan);
-  wrap.appendChild(inputSpan);
-
-  // 念のため、内側 span も横並び指定を強める
-  inputSpan.style.display = 'inline-flex';
-  inputSpan.style.alignItems = 'center';
-  inputSpan.style.gap = '8px';
-  inputSpan.style.width = 'auto';
-})();
-// --- 「※JS時間外報告」の前に改行を入れる ---
-(() => {
-  const tallTh = [...root.querySelectorAll('.th')].find(t => t.textContent.includes('経過及び処理'));
-  const tallTd = tallTh ? tallTh.nextElementSibling : null;
-  const lastChecks = tallTd ? tallTd.querySelector('.checks:last-of-type') : null;
-  if (!lastChecks) return;
-
-  // 「※JS時間外報告」の span を探す
-  const spans = [...lastChecks.children];
-  const jsSpan = spans.find(el => el.tagName === 'SPAN' && el.textContent.includes('※JS時間外報告'));
-  if (!jsSpan) return;
-
-  // 改行要素を作って「※JS時間外報告」の直前に挿入
-  const br = document.createElement('div');
-  br.style.width = '100%';
-  br.style.height = '0';
-  br.style.display = 'block';
-  br.style.marginTop = '8px'; // お好みで余白
-  lastChecks.insertBefore(br, jsSpan);
-})();
-  
-  // 受付区分（セレクト＋名前）：1行、min-width:300px
-if (oneLineTds.kubun) {
-  enforceOneLine(oneLineTds.kubun);
-  [...oneLineTds.kubun.querySelectorAll('div')].forEach(ch => {
-    ch.style.minWidth = '300px';
-  });
-}
-
-// 受付日時（日付＋時刻＋受付者）：1行、min-width:200px
-if (oneLineTds.jikan) {
-  enforceOneLine(oneLineTds.jikan);
-  [...oneLineTds.jikan.querySelectorAll('div')].forEach(ch => {
-    ch.style.minWidth = '200px';
-  });
-}
-
-// 団地名（セレクト＋任意入力）：1行、min-width:300px
-if (oneLineTds.danchi) {
-  enforceOneLine(oneLineTds.danchi);
-  [...oneLineTds.danchi.querySelectorAll('div')].forEach(ch => {
-    ch.style.minWidth = '300px';
-  });
-}
-}
+        td.innerHTML = '';
+        td.appendChild(wrap);
+      })();
+    }
 
 
     document.getElementById('btnPdf').addEventListener('click', exportPdf);
     document.getElementById('btnPrint').addEventListener('click', () => window.print());
 
     // 電話番号フォーマット
-    function formatTel(v){
+    function formatTel(v) {
       const d = v.replace(/[^0-9]/g, '');
-      if(d.startsWith('0120')){
-        if(d.length <= 4) return d;
-        if(d.length <= 7) return d.slice(0,4)+'-'+d.slice(4);
-        return d.slice(0,4)+'-'+d.slice(4,7)+'-'+d.slice(7,11);
+      if (d.startsWith('0120')) {
+        if (d.length <= 4) return d;
+        if (d.length <= 7) return d.slice(0, 4) + '-' + d.slice(4);
+        return d.slice(0, 4) + '-' + d.slice(4, 7) + '-' + d.slice(7, 11);
       }
-      if(d.length <= 3) return d;
-      if(d.length <= 7) return d.slice(0,3)+'-'+d.slice(3);
-      return d.slice(0,3)+'-'+d.slice(3,7)+'-'+d.slice(7,11);
+      if (d.length <= 3) return d;
+      if (d.length <= 7) return d.slice(0, 3) + '-' + d.slice(3);
+      return d.slice(0, 3) + '-' + d.slice(3, 7) + '-' + d.slice(7, 11);
     }
-    document.querySelectorAll('.tel').forEach(input=>{
-      input.addEventListener('input',e=>{ e.target.value=formatTel(e.target.value); });
+    document.querySelectorAll('.tel').forEach(input => {
+      input.addEventListener('input', e => { e.target.value = formatTel(e.target.value); });
     });
   </script>
 </body>
+
 </html>
